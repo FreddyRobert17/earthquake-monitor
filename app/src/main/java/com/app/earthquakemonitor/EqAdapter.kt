@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.earthquakemonitor.databinding.EqListItemBinding
 
+private val TAG = EqAdapter::class.java.simpleName
+
 class EqAdapter: ListAdapter<Earthquake, EqAdapter.EqViewHolder>(DiffCallback) {
+
+    lateinit var onItemClickListener: (Earthquake) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EqViewHolder {
         val binding = EqListItemBinding.inflate(LayoutInflater.from(parent.context))
@@ -26,6 +30,13 @@ class EqAdapter: ListAdapter<Earthquake, EqAdapter.EqViewHolder>(DiffCallback) {
         fun bind(earthQuake: Earthquake){
             binding.eqMagnitudeText.text = earthQuake.magnitude.toString()
             binding.eqPlaceText.text = earthQuake.place
+            binding.root.setOnClickListener {
+                if(::onItemClickListener.isInitialized){
+                    onItemClickListener(earthQuake)
+                } else {
+                    Log.e(TAG, "OnItemClickListener was not initialized")
+                }
+            }
         }
     }
 
