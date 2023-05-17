@@ -1,16 +1,13 @@
-package com.app.earthquakemonitor
+package com.app.earthquakemonitor.main
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.app.earthquakemonitor.Earthquake
 import com.app.earthquakemonitor.databinding.EqListItemBinding
-
-private val TAG = EqAdapter::class.java.simpleName
 
 class EqAdapter: ListAdapter<Earthquake, EqAdapter.EqViewHolder>(DiffCallback) {
 
@@ -34,7 +31,7 @@ class EqAdapter: ListAdapter<Earthquake, EqAdapter.EqViewHolder>(DiffCallback) {
                 if(::onItemClickListener.isInitialized){
                     onItemClickListener(earthQuake)
                 } else {
-                    Log.e(TAG, "OnItemClickListener was not initialized")
+                    Log.e("TAG", "OnItemClickListener was not initialized")
                 }
             }
         }

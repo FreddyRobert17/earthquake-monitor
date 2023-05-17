@@ -1,26 +1,17 @@
-package com.app.earthquakemonitor
+package com.app.earthquakemonitor.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import com.app.earthquakemonitor.Earthquake
+import com.app.earthquakemonitor.api.EqJsonResponse
+import com.app.earthquakemonitor.api.service
+import com.app.earthquakemonitor.database.EqDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class MainViewModel: ViewModel() {
-    private var _eqList = MutableLiveData<MutableList<Earthquake>>()
-    val eqList: LiveData<MutableList<Earthquake>>
-            get() = _eqList
-
-    init {
-        viewModelScope.launch {
-            _eqList.value = fetchEarthquakes()
-        }
-    }
-
-    private suspend fun fetchEarthquakes(): MutableList<Earthquake> {
+class MainRepository(private val database: EqDatabase) {
+    suspend fun fetchEarthquakes(): MutableList<Earthquake> {
         return withContext(Dispatchers.IO){
             val eqJsonResponse = service.getLastHourEarthquakes()
-             val eqList = parseEqResult(eqJsonResponse)
+            val eqList = parseEqResult(eqJsonResponse)
             eqList
         }
     }
