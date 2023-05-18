@@ -1,5 +1,6 @@
 package com.app.earthquakemonitor.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.app.earthquakemonitor.Earthquake
 
@@ -10,4 +11,7 @@ interface EqDao {
 
     @Query("SELECT * FROM earthquakes")
     fun getEarthquakes(): MutableList<Earthquake>
+
+    @Query("SELECT * FROM earthquakes ORDER BY magnitude DESC")
+    fun getEarthquakesByMagnitude(): MutableList<Earthquake>
 }
