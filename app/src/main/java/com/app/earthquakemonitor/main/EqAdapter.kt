@@ -25,7 +25,8 @@ class EqAdapter: ListAdapter<Earthquake, EqAdapter.EqViewHolder>(DiffCallback) {
 
     inner class EqViewHolder(private val binding: EqListItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(earthQuake: Earthquake){
-            binding.eqMagnitudeText.text = earthQuake.magnitude.toString()
+            val formattedMag = String.format("%.1f", earthQuake.magnitude)
+            binding.eqMagnitudeText.text = formattedMag
             binding.eqPlaceText.text = earthQuake.place
             binding.root.setOnClickListener {
                 if(::onItemClickListener.isInitialized){

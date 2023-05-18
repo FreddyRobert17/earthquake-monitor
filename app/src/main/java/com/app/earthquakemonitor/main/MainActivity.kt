@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.earthquakemonitor.Earthquake
 import com.app.earthquakemonitor.R
 import com.app.earthquakemonitor.api.ApiResponseStatus
+import com.app.earthquakemonitor.api.WorkerUtil
 import com.app.earthquakemonitor.databinding.ActivityMainBinding
 
 private const val SORT_TYPE_KEY = "sort_type"
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.eqRecycler.layoutManager = LinearLayoutManager(this)
 
+        WorkerUtil.scheduleSync(this)
         val sortType = getSortType()
 
         viewModel = ViewModelProvider(this, MainViewModelFactory(application, sortType)).get(MainViewModel::class.java)

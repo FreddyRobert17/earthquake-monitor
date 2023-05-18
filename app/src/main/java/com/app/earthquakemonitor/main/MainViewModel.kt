@@ -22,7 +22,7 @@ class MainViewModel(private val application: Application, private val sortType: 
             get() = _eqList
 
     init {
-        reloadEarthquakes()
+        reloadEarthquakesFromDatabase(sortType)
     }
 
     private fun reloadEarthquakes() {
@@ -33,7 +33,6 @@ class MainViewModel(private val application: Application, private val sortType: 
                 _status.value = ApiResponseStatus.DONE
             } catch (e: UnknownHostException) {
                 _status.value = ApiResponseStatus.ERROR
-                Log.d("TAG", "No internet connection", e)
             }
         }
     }
@@ -41,6 +40,9 @@ class MainViewModel(private val application: Application, private val sortType: 
     fun reloadEarthquakesFromDatabase(sortByMagnitude: Boolean) {
         viewModelScope.launch {
                 _eqList.value = repository.fetchEarthquakesFromDatabase(sortByMagnitude)
+                if(_eqList.value!!.isEmpty()){
+                    reloadEarthquakes()
+                }
         }
     }
 }
